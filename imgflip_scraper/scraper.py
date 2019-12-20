@@ -19,7 +19,7 @@ def extract_html(url: str, sleep_time: int = 5) -> BeautifulSoup:
     except requests.exceptions.ConnectionError:
         print(f"Failed to connect, sleeping for {sleep_time} seconds")
         sleep(sleep_time)
-        extract_html(url)
+        return extract_html(url)
     else:
         return BeautifulSoup(request.text, features="html.parser")
 
