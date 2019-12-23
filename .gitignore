@@ -130,3 +130,6 @@ dmypy.json
 
 # PyCharm's project details
 /.idea
+
+# Downloaded database
+/meme_database
