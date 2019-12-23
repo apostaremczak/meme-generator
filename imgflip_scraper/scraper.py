@@ -23,8 +23,7 @@ class Scraper:
                             level=logging.INFO)
         self.logger = logging.getLogger("ScraperLogger")
 
-    def extract_html(self, url: str, sleep_time: int = 5,
-                     headers: json = None) -> BeautifulSoup:
+    def extract_html(self, url: str, sleep_time: int = 5) -> BeautifulSoup:
         """
         :param url:        String with an URL.
         :param sleep_time: Time to wait (in seconds) until next try
@@ -33,7 +32,7 @@ class Scraper:
         :return:           BeautifulSoup object with HTML found on the page.
         """
         try:
-            request = requests.get(url, headers=headers)
+            request = requests.get(url)
         except requests.exceptions.ConnectionError:
             self.logger.warning(f"Failed to connect, sleeping for "
                                 f"{sleep_time} seconds")
@@ -42,18 +41,33 @@ class Scraper:
         else:
             return BeautifulSoup(request.text, features="html.parser")
 
-    def get_meme_caption(self, meme_id: str) -> str:
+    def get_meme_caption(self, meme_id: str):
         """
         :param meme_id: Meme's ID.
-        :return:        Caption used on this meme.
+        :return:        String of the caption used on this meme
+                        (or None, if no caption was found).
         """
         soup = self.extract_html(f"{self.base_url}/i/{meme_id}")
         description = soup.find("div", class_="img-desc")
         if description is not None:
             meme_text = description.text.strip() \
-                .replace("IMAGE DESCRIPTION:", "") \
+                .replace("IMAGE DESCRIPTION:\n", "") \
                 .replace("\n", " ")
             return meme_text
+        else:
+            return None
+
+    @staticmethod
+    def selenium_get_with_retry(driver: webdriver, url: str) -> webdriver:
+        """
+        Handle timeout exceptions when loading pages with Selenium
+        """
+        try:
+            driver.get(url)
+        except TimeoutException:
+            return Scraper.selenium_get_with_retry(driver, url)
+        else:
+            return driver
 
     def get_top_meme_ids(self, category: str, driver: webdriver,
                          num_pages: int) -> List[str]:
@@ -71,15 +85,7 @@ class Scraper:
             category_url = f"{self.base_url}/meme/" \
                            f"{category}?sort=top-365d&page={page}"
 
-            # Handle timeout exceptions when loading pages with Selenium
-            loaded = False
-            while not loaded:
-                try:
-                    driver.get(category_url)
-                except TimeoutException:
-                    pass
-                else:
-                    loaded = True
+            driver = self.selenium_get_with_retry(driver, category_url)
 
             meme_links = driver.find_elements_by_class_name("base-img-link")
             for meme_link in meme_links:
@@ -119,7 +125,8 @@ class Scraper:
             self.logger.info(f"Saving meme to {category}: {meme_id} "
                              f"({i + 1}/{cardinality})")
             caption = self.get_meme_caption(meme_id)
-            self.save_caption(category, meme_id, caption)
+            if caption is not None:
+                self.save_caption(category, meme_id, caption)
 
     def save_all_categories(self, num_pages: int) -> None:
         """
@@ -136,4 +143,4 @@ if __name__ == '__main__':
         meme_categories = [line.replace("\n", "") for line in f.readlines()]
 
     scraper = Scraper(BASE_URL, meme_categories)
-    scraper.save_all_categories(num_pages=100)
+    scraper.save_all_categories(num_pages=150)
