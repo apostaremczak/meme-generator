@@ -2,7 +2,6 @@ import json
 import logging
 import requests
 from bs4 import BeautifulSoup
-from requests import get
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from time import sleep
@@ -34,7 +33,7 @@ class Scraper:
         :return:           BeautifulSoup object with HTML found on the page.
         """
         try:
-            request = get(url, headers=headers)
+            request = requests.get(url, headers=headers)
         except requests.exceptions.ConnectionError:
             self.logger.warning(f"Failed to connect, sleeping for "
                                 f"{sleep_time} seconds")
