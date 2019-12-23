@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from requests import get
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from time import sleep
 from typing import List
 
@@ -56,7 +57,7 @@ class Scraper:
             return meme_text
 
     def get_top_meme_ids(self, category: str, driver: webdriver,
-                         num_pages: int = 1) -> List[str]:
+                         num_pages: int) -> List[str]:
         """
         :param category:      Category to be extracted,
         :param driver:        Selenium browser driver.
@@ -70,7 +71,16 @@ class Scraper:
 
             category_url = f"{self.base_url}/meme/" \
                            f"{category}?sort=top-365d&page={page}"
-            driver.get(category_url)
+
+            # Handle timeout exceptions when loading pages with Selenium
+            loaded = False
+            while not loaded:
+                try:
+                    driver.get(category_url)
+                except TimeoutException:
+                    pass
+                else:
+                    loaded = True
 
             meme_links = driver.find_elements_by_class_name("base-img-link")
             for meme_link in meme_links:
@@ -83,29 +93,43 @@ class Scraper:
         return meme_ids
 
     def save_caption(self, category: str, meme_id: str, caption: str) -> None:
+        """
+        Helper function for appending a meme's caption to its categories'
+        JSON file.
+        """
         category_file = f"{self.saving_dir}/{category}.json"
         meme_details = {"id": meme_id, "caption": caption}
 
         with open(category_file, "a+") as captions_file:
             captions_file.write(json.dumps(meme_details) + "\n")
 
-    def save_category(self, category: str, driver: webdriver,
-                      num_pages: int = 1) -> None:
+    def save_category(self, category: str, num_pages: int) -> None:
+        """
+        Helper function for downloading a single category.
+        """
+        # Set up Selenium's browser driver
+        driver = webdriver.Firefox()
+        # Throw timeout exception whenever page takes longer than 10s to load
+        driver.set_page_load_timeout(10)
         category_ids = set(self.get_top_meme_ids(category, driver, num_pages))
+        driver.close()
+
         cardinality = len(category_ids)
 
         for i, meme_id in enumerate(category_ids):
             self.logger.info(f"Saving meme to {category}: {meme_id} "
-                             f"({i}/{cardinality})")
+                             f"({i + 1}/{cardinality})")
             caption = self.get_meme_caption(meme_id)
             self.save_caption(category, meme_id, caption)
 
-    def save_all_categories(self, num_pages: int = 1) -> None:
+    def save_all_categories(self, num_pages: int) -> None:
+        """
+        Get meme IDs and captions for the top <num_pages> of provided
+        categories.
+        """
         for category in self.categories:
-            driver = webdriver.Firefox()
             self.logger.info(f"Downloading category {category}")
-            self.save_category(category, driver, num_pages)
-            driver.close()
+            self.save_category(category, num_pages)
 
 
 if __name__ == '__main__':
