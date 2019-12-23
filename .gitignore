@@ -132,4 +132,4 @@ dmypy.json
 /.idea
 
 # Downloaded database
-/meme_database
+/meme_database/*.json
