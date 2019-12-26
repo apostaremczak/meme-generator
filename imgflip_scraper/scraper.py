@@ -80,7 +80,7 @@ class Scraper:
         meme_ids = []
         for page in range(1, num_pages + 1):
             self.logger.info(
-                f"Downloading page {page} for category {category}")
+                f"Downloading page {page}/{num_pages} for category {category}")
 
             category_url = f"{self.base_url}/meme/" \
                            f"{category}?sort=top-365d&page={page}"
