@@ -28,7 +28,6 @@ class Scraper:
         :param url:        String with an URL.
         :param sleep_time: Time to wait (in seconds) until next try
                            when connection error occurs.
-        :param headers:
         :return:           BeautifulSoup object with HTML found on the page.
         """
         try:
