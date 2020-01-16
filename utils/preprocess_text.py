@@ -1,4 +1,5 @@
 import unicodedata
+from functools import reduce
 from pandas import DataFrame
 from string import ascii_letters, digits
 from typing import Dict, List
@@ -46,3 +47,12 @@ def preprocess_captions(captions_db: Dict[str, DataFrame],
         )
 
     return processed_captions
+
+
+def get_alphabet(caption_db: Dict[str, List[str]]) -> str:
+    alphabet = set()
+    for category_memes in caption_db.values():
+        captions_alphabets = [set(caption) for caption in category_memes]
+        category_alphabet = reduce(lambda a, b: a.union(b), captions_alphabets)
+        alphabet = alphabet.union(category_alphabet)
+    return "".join(sorted(alphabet))
