@@ -14,12 +14,12 @@ def load_category_memes(category_name: str,
     return pd.read_json(filename, lines="series")
 
 
-def load_memes(categories: List[str],
+def load_memes(category_names: List[str],
                database_path: str = DATABASE_PATH) -> Dict[str, pd.DataFrame]:
     """
     Read all memes from the database.
     """
     return {
         category_name: load_category_memes(category_name, database_path)
-        for category_name in categories
+        for category_name in category_names
     }
