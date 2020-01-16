@@ -14,7 +14,7 @@ def read_categories(database_path: str = DATABASE_PATH,
     with open(f"{database_path}/{categories_filename}", "r") as f:
         categories = [line.strip().split(",") for line in f]
         categories = {
-            category_name.zfill(padded_id_length): category_id
+            category_id.zfill(padded_id_length): category_name
             for category_id, category_name in categories
         }
     return categories
