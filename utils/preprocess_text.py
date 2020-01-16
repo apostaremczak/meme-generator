@@ -46,7 +46,7 @@ def preprocess_captions(captions_db: Dict[str, DataFrame],
     removed during preprocessing.
 
     :return: Dictionary of memes in the following format:
-    {category_name: "<category ID>  <caption>;"}
+    {category_name: [[<category ID>, <caption>, ";"], ...]}
     """
     processed_captions = {}
     for category_name, memes in captions_db.items():
