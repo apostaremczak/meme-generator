@@ -20,8 +20,10 @@ def get_training_dataset(preprocessed_memes: Dict[str, List[List[str]]],
     }
 
     return [
-        np.ndarray([indexed_vocabulary[word] for word in caption],
-                   dtype=np.int32)
+        np.array(
+            [indexed_vocabulary[word] for word in caption],
+            dtype=np.int32
+        )
         for caption in captions
     ]
 
@@ -35,4 +37,4 @@ def generate_random_training_example(training_dataset: List[np.ndarray]) \
         [caption[:i], caption[i:]]
         for i in range(n_words)
     ]
-    yield caption_sequenced
+    return caption_sequenced
