@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import torch
 from functools import reduce
 from typing import List, Dict
 
@@ -29,12 +30,15 @@ def get_training_dataset(preprocessed_memes: Dict[str, List[List[str]]],
 
 
 def generate_random_training_example(training_dataset: List[np.ndarray]) \
-        -> List[List[np.ndarray]]:
+        -> List[List[torch.tensor]]:
     caption = random.choice(training_dataset)
-    # Make this caption sequential
+
+    # Make this caption sequential:
     n_words = len(caption)
-    caption_sequenced = [
-        [caption[:i], caption[i:]]
-        for i in range(n_words)
-    ]
+
+    caption_sequenced = []
+    for i in range(1, n_words):
+        input_tensor = torch.tensor([caption[:i]], dtype=torch.long)
+        target_tensor = torch.tensor([caption[i]], dtype=torch.long)
+        caption_sequenced.append([input_tensor, target_tensor])
     return caption_sequenced
