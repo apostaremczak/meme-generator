@@ -1,11 +1,11 @@
 import unicodedata
 from functools import reduce
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import TweetTokenizer
 from pandas import DataFrame
-from string import ascii_letters, digits
+from string import ascii_letters
 from typing import Dict, List
 
-ALLOWED_ALPHABET = ascii_letters + " .,;'-" + digits
+ALLOWED_ALPHABET = ascii_letters + " .,;'-"
 MIN_CAPTION_LENGTH = 5
 
 
@@ -62,7 +62,8 @@ def preprocess_captions(captions_db: Dict[str, DataFrame],
         )
 
         # Use word tokenizer
-        tokenized_captions = list(map(word_tokenize, filtered_captions))
+        tokenizer = TweetTokenizer()
+        tokenized_captions = list(map(tokenizer.tokenize, filtered_captions))
 
         # Prepend the category ID to each caption
         category_id = category_ids[category_name]
