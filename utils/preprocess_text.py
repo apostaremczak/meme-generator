@@ -30,23 +30,20 @@ def normalize_caption(caption: str,
 
 
 def preprocess_captions(captions_db: Dict[str, DataFrame],
-                        category_ids: Dict[str, str],
                         min_caption_len: int = MIN_CAPTION_LENGTH) \
-        -> Dict[str, List[str]]:
+        -> Dict[str, List[List[str]]]:
     """
     Makes a dictionary of all captions within the categories.
     Turns the original caption lowercase and converts it to ASCII,
     filtering out captions shorter than <min_caption_len> characters.
 
     :param captions_db: Dictionary of pandas data frame with the memes in
-    the format {category_name: pandas_memes}.
-    :param category_ids: Dictionary of category IDs and their translations
-    to readable names: {category_id: category_name}.
+    the format {category_name: pandas_memes}
     :param min_caption_len: Minimum length of a caption for it not to be
     removed during preprocessing.
 
     :return: Dictionary of memes in the following format:
-    {category_name: [[<category ID>, <caption>, ";"], ...]}
+    {category_name: [[<category name>, <caption>, ";"], ...]}
     """
     processed_captions = {}
     for category_name, memes in captions_db.items():
@@ -65,13 +62,7 @@ def preprocess_captions(captions_db: Dict[str, DataFrame],
         tokenizer = TweetTokenizer()
         tokenized_captions = list(map(tokenizer.tokenize, filtered_captions))
 
-        # Prepend the category ID to each caption
-        category_id = category_ids[category_name]
-
-        processed_captions[category_name] = list(map(
-            lambda caption_words: [category_id] + caption_words,
-            tokenized_captions
-        ))
+        processed_captions[category_name] = tokenized_captions
 
     return processed_captions
 
