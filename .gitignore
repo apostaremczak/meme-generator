@@ -133,3 +133,9 @@ dmypy.json
 
 # Downloaded database
 /meme_database/*.json
+
+# Large data files
+*.pickle
+*.pt
+glove.twitter.27B.50d.txt
+meme_vocabulary.txt
