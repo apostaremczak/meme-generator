@@ -46,5 +46,5 @@ class MemeDataset(Dataset):
 
     def __getitem__(self, index):
         sentence, next_word = self.data[index]
-        return torch.from_numpy(sentence).type(torch.long), \
-               torch.from_numpy(next_word).type(torch.long)
+        return torch.from_numpy(sentence).long(), \
+               torch.from_numpy(next_word).long()
