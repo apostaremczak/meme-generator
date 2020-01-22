@@ -133,6 +133,7 @@ dmypy.json
 
 # Downloaded database
 /meme_database/*.json
+*.jpg
 
 # Large data files
 *.pickle
