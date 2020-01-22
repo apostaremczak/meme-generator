@@ -28,7 +28,6 @@ class Scraper:
         :param url:        String with an URL.
         :param sleep_time: Time to wait (in seconds) until next try
                            when connection error occurs.
-        :param headers:
         :return:           BeautifulSoup object with HTML found on the page.
         """
         try:
@@ -140,7 +139,10 @@ class Scraper:
 
 if __name__ == '__main__':
     with open(CATEGORIES_FILE, "r") as f:
-        meme_categories = [line.replace("\n", "") for line in f.readlines()]
+        meme_categories = [
+            line.replace("\n", "").split(",")[1]
+            for line in f.readlines()
+        ]
 
     scraper = Scraper(BASE_URL, meme_categories)
     scraper.save_all_categories(num_pages=150)
