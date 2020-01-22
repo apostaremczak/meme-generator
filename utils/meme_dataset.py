@@ -1,6 +1,7 @@
 import pickle
+import random
 import torch
-from random import shuffle
+
 from torch.utils.data import Dataset
 from typing import List
 from utils.glove import read_vocabulary, read_glove_embeddings
@@ -8,13 +9,18 @@ from utils.glove import read_vocabulary, read_glove_embeddings
 
 class MemeDataset(Dataset):
     def __init__(self,
+                 validation_fraction: float = 0.2,
                  data_file_name: str = "encoded_meme_dataset.pickle",
                  vocabulary_file_name: str = "meme_vocabulary.txt",
                  glove_embedding_file_name: str = "meme_glove_embeddings.pt"):
         # Read training examples and shuffle them
         with open(data_file_name, "rb") as f:
             self.data = pickle.load(f)
-        shuffle(self.data)
+        random.shuffle(self.data)
+
+        validation_sample_count = int(validation_fraction * len(self.data))
+        self.train = self.data[:-validation_sample_count]
+        self.valid = self.data[-validation_sample_count:]
 
         # Read dictionary of words used in the examples
         self.vocabulary = read_vocabulary(vocabulary_file_name)
@@ -57,5 +63,19 @@ class MemeDataset(Dataset):
         return caption_sequenced
 
     def __getitem__(self, index) -> List[List[torch.tensor]]:
-        caption = self.data[index]
+        """
+        Returns items from the training part of the dataset.
+        """
+        caption = self.train[index]
         return self.generate_training_examples(caption)
+
+    def get_validation_example(self) -> List[torch.tensor]:
+        """
+        Get a random caption from the validation dataset.
+        """
+        caption = random.choice(self.valid)
+        index = random.randrange(1, len(caption))
+        return [
+            torch.tensor([caption[:index]], dtype=torch.long),
+            torch.tensor([caption[index]], dtype=torch.long)
+        ]
