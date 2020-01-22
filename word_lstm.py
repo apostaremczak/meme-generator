@@ -9,7 +9,8 @@ class WordLSTM(nn.Module):
                  dataset: MemeDataset,
                  hidden_dim: int,
                  n_lstm_layers: int = 3,
-                 dropout_rate: float = 0.4):
+                 dropout_rate: float = 0.4,
+                 train_embeddings: bool = False):
         """
         Word-level LSTM RNN.
         It's supposed to take in a sequence of words, and predict the next
@@ -30,7 +31,7 @@ class WordLSTM(nn.Module):
 
         # Word embeddings
         self.encoder = nn.Embedding.from_pretrained(dataset.embedding_weights)
-        self.encoder.weight.requires_grad = False
+        self.encoder.weight.requires_grad = train_embeddings
 
         # Dropout layer
         self.dropout = nn.Dropout(p=dropout_rate)
