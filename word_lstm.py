@@ -5,34 +5,32 @@ from utils.meme_dataset import MemeDataset
 
 
 class WordLSTM(nn.Module):
-    def __init__(
-            self,
-            meme_dataset: MemeDataset,
-            hidden_dim: int,
-            n_lstm_layers: int = 3,
-            dropout_rate: float = 0.4
-    ):
+    def __init__(self,
+                 dataset: MemeDataset,
+                 hidden_dim: int,
+                 n_lstm_layers: int = 3,
+                 dropout_rate: float = 0.4):
         """
         Word-level LSTM RNN.
         It's supposed to take in a sequence of words, and predict the next
         word.
 
         :param vocabulary_size: Number of distinct words used in texts.
+        :param embedding_dim: Dimension of the word embedding layer.
         :param hidden_dim: Dimension of the hidden LSTM layer.
         :param n_lstm_layers: Number of LSTM layers to be used.
         :param dropout_rate: Dropout probability, used to fight overfitting.
         """
         super().__init__()
 
-        # GloVe word embeddings
-        self.encoder = nn.Embedding.from_pretrained(
-            meme_dataset.embedding_weights)
+        # Dataset details
+        self.dataset = dataset
+        self.embedding_dim = dataset.embedding_weights.size(1)
+        self.vocabulary_size = len(dataset.vocabulary)
 
-        # Don't train GloVe embeddings
+        # Word embeddings
+        self.encoder = nn.Embedding.from_pretrained(dataset.embedding_weights)
         self.encoder.weight.requires_grad = False
-
-        self.embedding_dim = meme_dataset.embedding_weights.size(1)
-        self.vocabulary_size = len(meme_dataset.vocabulary)
 
         # Dropout layer
         self.dropout = nn.Dropout(p=dropout_rate)
@@ -47,8 +45,12 @@ class WordLSTM(nn.Module):
         # Linear layer to map hidden states to vocabulary space
         self.decoder = nn.Linear(hidden_dim, self.vocabulary_size)
 
+        # Track model losses
+        self.train_losses = []
+        self.validation_losses = []
+
     def forward(self, sentence: torch.LongTensor) -> torch.tensor:
-        encoded = self.encoder(sentence)
-        dropped = self.dropout(encoded)
-        lstm_output, _ = self.lstm(dropped)
-        return self.decoder(lstm_output[:, -1])
+        x = self.encoder(sentence)
+        x = self.dropout(x)
+        x, _ = self.lstm(x)
+        return self.decoder(x[:, -1])
