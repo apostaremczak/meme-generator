@@ -1,6 +1,8 @@
 import logging
+import numpy as np
 import torch
 import torch.nn as nn
+import random
 import torch.optim as optim
 
 from utils.meme_dataset import MemeDataset
@@ -9,10 +11,10 @@ from word_lstm import WordLSTM
 HIDDEN_DIM = 64
 LEARNING_RATE = 0.0005
 NUM_EPOCHS = 5
-PLOT_EVERY = 1000
-SAVE_MODEL_EVERY = 1000
+PLOT_EVERY = 300
+SAVE_MODEL_EVERY = 300
 NUM_LAYERS = 5
-CHECKPOINT_FILE_NAME = "glove_lstm_checkpoints.pt"
+CHECKPOINT_FILE_NAME = "shuffled_glove_lstm_checkpoints.pt"
 
 
 if __name__ == '__main__':
@@ -33,13 +35,16 @@ if __name__ == '__main__':
 
     # Start training
     for epoch in range(NUM_EPOCHS):
+        batch_losses = []
 
         for i, training_example in enumerate(rnn.dataset):
             optimizer.zero_grad()
+            random.shuffle(training_example)
             for sentence, next_word in training_example:
                 output = rnn(sentence)
                 loss = criterion(output, next_word)
                 loss.backward()
+                batch_losses.append(loss.item())
             optimizer.step()
 
             # Make a checkpoint
@@ -54,7 +59,8 @@ if __name__ == '__main__':
 
             # Save loss function value on both train and validation sets
             if i % PLOT_EVERY == 0:
-                rnn.train_losses.append(loss.item())
+                avg_batch_loss = np.mean(batch_losses)
+                rnn.train_losses.append(avg_batch_loss)
 
                 with torch.no_grad():
                     valid_sentence, target_word = rnn.dataset \
@@ -66,6 +72,6 @@ if __name__ == '__main__':
                 logger.info(
                     f"Epoch: {epoch:,}/{NUM_EPOCHS:,} "
                     f"({i / epoch_length:.1%}); "
-                    f"Train loss: {loss.item():.2f}, "
+                    f"Train loss: {avg_batch_loss:.2f}, "
                     f"validation loss: {validation_loss.item():.2f};"
                 )
