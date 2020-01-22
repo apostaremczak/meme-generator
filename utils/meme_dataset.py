@@ -1,6 +1,5 @@
 import pickle
 import torch
-from random import shuffle
 from torch.utils.data import Dataset
 from utils.glove import read_vocabulary, read_glove_embeddings
 
@@ -13,7 +12,6 @@ class MemeDataset(Dataset):
         # Read training examples and shuffle them
         with open(data_file_name, "rb") as f:
             self.data = pickle.load(f)
-        shuffle(self.data)
 
         # Read dictionary of words used in the examples
         self.vocabulary = read_vocabulary(vocabulary_file_name)
@@ -46,5 +44,5 @@ class MemeDataset(Dataset):
 
     def __getitem__(self, index):
         sentence, next_word = self.data[index]
-        return torch.from_numpy(sentence).long(), \
-               torch.from_numpy(next_word).long()
+        return torch.tensor(sentence, dtype=torch.long), \
+               torch.tensor(next_word, dtype=torch.long)
