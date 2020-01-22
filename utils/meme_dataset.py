@@ -13,6 +13,8 @@ class MemeDataset(Dataset):
                  data_file_name: str = "encoded_meme_dataset.pickle",
                  vocabulary_file_name: str = "meme_vocabulary.txt",
                  glove_embedding_file_name: str = "meme_glove_embeddings.pt"):
+        super().__init__()
+
         # Read training examples and shuffle them
         with open(data_file_name, "rb") as f:
             self.data = pickle.load(f)
