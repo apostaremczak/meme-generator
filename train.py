@@ -11,7 +11,7 @@ from word_lstm import WordLSTM
 HIDDEN_DIM = 64
 LEARNING_RATE = 0.0005
 NUM_EPOCHS = 5
-PLOT_EVERY = 300
+PLOT_EVERY = 100
 SAVE_MODEL_EVERY = 300
 NUM_LAYERS = 5
 CHECKPOINT_FILE_NAME = "shuffled_glove_lstm_checkpoints.pt"
@@ -26,10 +26,22 @@ if __name__ == '__main__':
     # Prepare dataset
     meme_dataset = MemeDataset(validation_fraction=0.1)
 
-    # Initialize model
-    rnn = WordLSTM(meme_dataset, HIDDEN_DIM, NUM_LAYERS)
-    optimizer = optim.SGD(rnn.parameters(), lr=LEARNING_RATE)
+    # # Initialize model
+    # rnn = WordLSTM(meme_dataset, HIDDEN_DIM, NUM_LAYERS)
+    # optimizer = optim.SGD(rnn.parameters(), lr=LEARNING_RATE)
     criterion = nn.CrossEntropyLoss()
+
+    # Read model from checkpoints
+    checkpoints = torch.load(CHECKPOINT_FILE_NAME)
+    rnn = WordLSTM(meme_dataset, HIDDEN_DIM, NUM_LAYERS)
+    rnn.load_state_dict(checkpoints["model_state_dict"])
+    rnn.eval()
+
+    optimizer = optim.SGD(rnn.parameters(), lr=LEARNING_RATE)
+    optimizer.load_state_dict(checkpoints["optimizer_state_dict"])
+
+    rnn.train_losses = checkpoints["train_losses"]
+    rnn.validation_losses = checkpoints["validation_losses"]
 
     epoch_length = len(rnn.dataset.train)
 
