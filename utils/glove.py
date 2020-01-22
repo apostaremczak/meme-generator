@@ -65,4 +65,4 @@ def read_glove_embeddings(embedding_file: str = "meme_glove_embeddings.pt"):
     """
     :return: Tensor of size (vocabulary_size, embedding_size)
     """
-    return torch.load(embedding_file)
+    return torch.load(embedding_file).float()
