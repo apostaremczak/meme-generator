@@ -137,5 +137,4 @@ dmypy.json
 # Large data files
 *.pickle
 *.pt
-glove.twitter.27B.50d.txt
-meme_vocabulary.txt
+glove.6B.50d.txt
