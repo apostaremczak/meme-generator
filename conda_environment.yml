@@ -5,7 +5,7 @@ channels:
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
-  - _openmp_mutex=4.5=0_gnu
+  - _openmp_mutex=4.5=1_llvm
   - _tflow_select=2.3.0=mkl
   - absl-py=0.9.0=py38h32f6830_1
   - astor=0.8.1=pyh9f0ad1d_0
@@ -28,23 +28,22 @@ dependencies:
   - grpcio=1.27.2=py38h2c89da0_0
   - h5py=2.10.0=nompi_py38hfb01d0b_103
   - hdf5=1.10.6=nompi_h3c11f04_100
-  - idna=2.7=py_1
+  - idna=2.8=py38_1000
   - importlib-metadata=1.7.0=py38h32f6830_0
   - keras-preprocessing=1.1.0=py_0
   - ld_impl_linux-64=2.34=h53a641e_5
-  - libblas=3.8.0=14_openblas
-  - libcblas=3.8.0=14_openblas
+  - libblas=3.8.0=17_openblas
+  - libcblas=3.8.0=17_openblas
   - libffi=3.2.1=he1b5a44_1007
   - libgcc-ng=9.2.0=h24d8f2e_2
   - libgfortran-ng=7.5.0=hdf63c60_6
-  - libgomp=9.2.0=h24d8f2e_2
-  - liblapack=3.8.0=14_openblas
-  - libopenblas=0.3.7=h5ec1e0e_6
+  - liblapack=3.8.0=17_openblas
+  - libopenblas=0.3.10=h5ec1e0e_0
   - libprotobuf=3.12.3=h8b12597_0
   - libstdcxx-ng=9.2.0=hdf63c60_2
+  - llvm-openmp=10.0.0=hc9558a2_0
   - markdown=3.2.2=py_0
   - ncurses=6.1=hf484d3e_1002
-  - nltk=3.4.5=py38_0
   - numpy=1.18.5=py38h8854b6b_0
   - oauthlib=3.0.1=py_0
   - openssl=1.1.1g=h516909a_0
