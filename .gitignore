@@ -132,10 +132,5 @@ dmypy.json
 /.idea
 
 # Downloaded database
-/meme_database/*.json
-*.jpg
-
-# Large data files
-*.pickle
-*.pt
-glove.6B.50d.txt
+data/captions/*.json
+data/final_images/
