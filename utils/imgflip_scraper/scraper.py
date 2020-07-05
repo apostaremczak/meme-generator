@@ -7,6 +7,8 @@ from selenium.common.exceptions import TimeoutException
 from time import sleep
 from typing import List
 
+from utils.logger import get_logger
+
 BASE_URL = "https://imgflip.com"
 CATEGORIES_FILE = "../meme_database/categories.txt"
 SAVING_DIR = "../meme_database"
@@ -19,9 +21,7 @@ class Scraper:
         self.saving_dir = SAVING_DIR
 
         # Set logging details
-        logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                            level=logging.INFO)
-        self.logger = logging.getLogger("ScraperLogger")
+        self.logger = get_logger("ScraperLogger")
 
     def extract_html(self, url: str, sleep_time: int = 5) -> BeautifulSoup:
         """
