@@ -26,7 +26,7 @@ def get_tokenizer(tokenizer_path: Optional[str] = TOKENIZER_PATH,
     if tokenizer_path is None:
         logger.info("Creating a new tokenizer with added special tokens")
         tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        res = tokenizer.add_special_tokens({
+        tokenizer.add_special_tokens({
             "additional_special_tokens": special_tokens
         })
         tokenizer.save_pretrained(TOKENIZER_PATH)
