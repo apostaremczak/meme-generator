@@ -1,16 +1,13 @@
-import numpy as np
+import pickle
 import string
-import tensorflow as tf
 import unicodedata
 
-from logging import Logger
 from pandas import DataFrame
 from transformers import GPT2Tokenizer
 from tqdm import tqdm
 from typing import Dict, List
 
 from utils.file_loaders import load_captions
-from utils.logger import get_logger
 from model.config import MemeGeneratorConfig
 from model.meme_generator import get_tokenizer
 from model.special_tokens import END_OF_BOX_TOKEN, END_OF_TEXT_TOKEN
@@ -45,10 +42,31 @@ def _process_single_caption(category_token: str, caption: str) -> str:
     return " ".join(caption_with_tokens)
 
 
+def _create_caption_labels(tokenized_text: List[int], block_size=50):
+    examples = []
+    for i in range(0, len(tokenized_text) - block_size + 1, block_size):
+        examples.append(tokenized_text[i:i + block_size])
+
+    inputs, labels = [], []
+    for ex in examples:
+        inputs.append(ex[:-1])
+        labels.append(ex[1:])
+
+    return inputs, labels
+
+
+def _tokenize_single_caption(caption: str,
+                             tokenizer: GPT2Tokenizer,
+                             max_seq_length: int = MAX_SEQUENCE_LENGTH):
+    return tokenizer.encode(
+        caption,
+        max_length=max_seq_length,
+        truncation=True
+    )
+
+
 def _tokenize_captions(captions_db: Dict[str, DataFrame],
-                       tokenizer: GPT2Tokenizer,
-                       max_seq_length: int = MAX_SEQUENCE_LENGTH) \
-        -> List[List[int]]:
+                       tokenizer: GPT2Tokenizer):
     """
     Makes a dictionary of all captions within the categories.
     Turns the original caption lowercase and converts it to ASCII,
@@ -58,11 +76,8 @@ def _tokenize_captions(captions_db: Dict[str, DataFrame],
                             the format {category_name: pandas_memes}
     :param tokenizer:       Pre-trained tokenizer with added category names
                             as special tokens.
-    :param max_seq_length:
-
-    :return: List of tokenized captions
     """
-    processed_captions = []
+    tokenized_captions = []
     for category_name, memes in tqdm(captions_db.items(),
                                      desc="Tokenizing meme captions"):
         # Create a special token for category name
@@ -74,52 +89,24 @@ def _tokenize_captions(captions_db: Dict[str, DataFrame],
             memes["caption"].tolist()
         ))
 
-        # Tokenize all the captions
-        tokenized_captions = map(
-            lambda caption: tokenizer.encode(caption,
-                                             max_length=max_seq_length,
-                                             truncation=True),
-            category_captions
-        )
+        category_captions_merged = "\n".join(category_captions)
+        tokenized_category = tokenizer.encode(category_captions_merged)
+        tokenized_captions.extend(tokenized_category)
 
-        processed_captions.extend(list(tokenized_captions))
-
-    return processed_captions
-
-
-def _int64_feature(value: np.ndarray) -> tf.train.Feature:
-    """Returns an int64_list from a bool / enum / int / uint."""
-    return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
-
-
-def _create_data_record(tokenized_captions: List[List[int]],
-                        output_file_path: str = DATA_RECORD_PATH,
-                        logger: Logger = get_logger()):
-    """
-    Save training data as a TFRecord for faster training
-    """
-    with tf.io.TFRecordWriter(output_file_path) as record_writer:
-        for meme_caption in tokenized_captions:
-            try:
-                caption_array = np.array(meme_caption, dtype="int64")
-            except ValueError as e:
-                logger.error(meme_caption)
-                raise e
-
-            feature = {
-                "input_token": _int64_feature(caption_array)
-            }
-
-            features = tf.train.Features(feature=feature)
-            example = tf.train.Example(features=features)
-            record_writer.write(example.SerializeToString())
+    inputs, labels = _create_caption_labels(tokenized_captions)
+    return inputs, labels
 
 
 def run():
-    tokenizer = get_tokenizer(tokenizer_path="../model/tokenizer/")
+    tokenizer = get_tokenizer(None)
     captions_db = load_captions()
-    tokenized_captions = _tokenize_captions(captions_db, tokenizer)
-    _create_data_record(tokenized_captions)
+    tokenized_captions, labels = _tokenize_captions(captions_db, tokenizer)
+
+    with open("../data/train_captions.pickle", "wb") as f:
+        pickle.dump(tokenized_captions, f)
+
+    with open("../data/train_labels.pickle", "wb") as f:
+        pickle.dump(labels, f)
 
 
 if __name__ == '__main__':
