@@ -2,29 +2,33 @@ import os
 import pickle
 import tensorflow as tf
 from datetime import datetime
+from typing import Optional
 
 from utils.logger import get_logger
 from model.meme_generator import get_model
 
-DATA_PATH = "../data"
+DATA_PATH = "data"
 CHECKPOINT_DIR = "checkpoint"
 LOGS_DIR = "logs"
 NUM_EPOCHS = 10
 
 
-def run(num_epochs: int = NUM_EPOCHS, checkpoint_dir: str = CHECKPOINT_DIR,
+def run(num_epochs: int = NUM_EPOCHS,
+        resume_from: Optional[str] = None,
+        data_path: str = DATA_PATH,
+        checkpoint_dir: str = CHECKPOINT_DIR,
         logs_dir: str = LOGS_DIR):
     logger = get_logger()
 
-    with open(f"{DATA_PATH}/train_captions.pickle", "rb") as f:
+    with open(f"{data_path}/train_captions.pickle", "rb") as f:
         captions = pickle.load(f)
         captions = tf.convert_to_tensor(captions)
 
-    with open(f"{DATA_PATH}/train_labels.pickle", "rb") as f:
+    with open(f"{data_path}/train_labels.pickle", "rb") as f:
         labels = pickle.load(f)
         labels = tf.convert_to_tensor(labels)
 
-    model = get_model(model_path=None, logger=logger)
+    model = get_model(model_weights_path=resume_from, logger=logger)
     optimizer = tf.keras.optimizers.Adam(
         learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0)
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
@@ -56,5 +60,7 @@ def run(num_epochs: int = NUM_EPOCHS, checkpoint_dir: str = CHECKPOINT_DIR,
     logger.info("Saving model weights")
     model.save(f"{checkpoint_path_base}/final_model")
     model.save_weights(f"{checkpoint_path_base}/final_weights")
+
+    model.save_pretrained(f"{checkpoint_path_base}/transformer_pretrained")
 
     logger.info(f"Saved trained model to {checkpoint_path_base}")
