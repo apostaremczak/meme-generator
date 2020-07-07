@@ -14,6 +14,7 @@ NUM_EPOCHS = 10
 
 
 def run(num_epochs: int = NUM_EPOCHS,
+        validation_split: float = 0.2,
         resume_from: Optional[str] = None,
         data_path: str = DATA_PATH,
         checkpoint_dir: str = CHECKPOINT_DIR,
@@ -53,7 +54,8 @@ def run(num_epochs: int = NUM_EPOCHS,
 
     # Train the model
     model.fit(x=captions, y=labels, epochs=num_epochs, batch_size=1,
-              callbacks=[cp_callback, tb_callback])
+              callbacks=[cp_callback, tb_callback],
+              validation_split=validation_split)
     logger.info("Finished training")
 
     # Save full model and its weights just in case
