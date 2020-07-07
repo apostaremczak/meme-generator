@@ -131,6 +131,8 @@ dmypy.json
 # PyCharm's project details
 /.idea
 
+web_app/credentials.json
+
 # Downloaded database
 data/captions/*.json
 data/final_images/
