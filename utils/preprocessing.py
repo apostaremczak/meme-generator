@@ -25,15 +25,15 @@ def _char_to_ascii(char: str) -> str:
     Makes sure that a character is included in the allowed ASCII alphabet.
     """
     normalized = unicodedata.normalize("NFD", char)
-    if normalized in string.ascii_letters:
+    if normalized in string.printable + " ":
         return normalized
     else:
         return ""
 
 
 def _process_single_caption(category_token: str, caption: str) -> str:
-    caption = caption.replace(";", END_OF_BOX_TOKEN)
     caption = "".join(map(_char_to_ascii, caption))
+    caption = caption.replace(";", END_OF_BOX_TOKEN)
     caption_with_tokens = [
         category_token,
         caption,
