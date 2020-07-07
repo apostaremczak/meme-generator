@@ -14,6 +14,7 @@ NUM_EPOCHS = 10
 
 
 def run(num_epochs: int = NUM_EPOCHS,
+        learning_rate: float = 1e-3,
         validation_split: float = 0.2,
         resume_from: Optional[str] = None,
         data_path: str = DATA_PATH,
@@ -30,8 +31,7 @@ def run(num_epochs: int = NUM_EPOCHS,
         labels = tf.convert_to_tensor(labels)
 
     model = get_model(model_weights_path=resume_from, logger=logger)
-    optimizer = tf.keras.optimizers.Adam(
-        learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0)
+    optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
     model.compile(optimizer=optimizer,
