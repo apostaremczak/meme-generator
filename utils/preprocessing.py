@@ -42,7 +42,7 @@ def _process_single_caption(category_token: str, caption: str) -> str:
     return " ".join(caption_with_tokens)
 
 
-def _create_caption_labels(tokenized_text: List[int], block_size=50):
+def _create_caption_labels(tokenized_text: List[int], block_size=256):
     examples = []
     for i in range(0, len(tokenized_text) - block_size + 1, block_size):
         examples.append(tokenized_text[i:i + block_size])
