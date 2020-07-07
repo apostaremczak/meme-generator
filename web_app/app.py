@@ -1,4 +1,4 @@
-import os
+from random import choice
 from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
@@ -11,12 +11,12 @@ def index():
 
 @app.route('/generate/<category_id>', methods=["GET"])
 def generate_meme(category_id: str):
-    images = {
-        "0": "//i.imgflip.com/47hbo7.jpg",
-        "21": "//i.imgflip.com/422mns.jpg",
-        "47": "//i.imgflip.com/47dpwj.jpg"
-    }
-    return jsonify(result_image=images[category_id])
+    images = [
+        "//i.imgflip.com/47hbo7.jpg",
+        "//i.imgflip.com/422mns.jpg",
+        "//i.imgflip.com/47dpwj.jpg"
+    ]
+    return jsonify(result_image=choice(images))
 
 
 if __name__ == '__main__':
