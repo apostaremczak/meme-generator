@@ -10,7 +10,11 @@ Why? Because why not.
 
 ## Requirements
 
-This project is written in Python 3.8.
+This project is written in Python 3.8, using Tensorflow 2.2.
+
+## Model architecture
+
+The model uses a pre-trained DistilGPT-2 from [huggingface/transformers](https://github.com/huggingface/transformers) as a basis for fine-tuning.
 
 ## Sources
 
