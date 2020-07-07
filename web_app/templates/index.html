@@ -3,288 +3,290 @@
 <head>
     <title>Meme Transformers</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
-<div id="console"></div>
-<script src="static/js/index.js"></script>
+  <div class="container">
+    <div class="header">
+      <h2>Click on a meme to generate a new caption</h2>
+      <img alt="Generated result image"
+          title="Generated result image"
+          src="http://www.dipsimt.com/Upload/Main/result1_cb071472-fb24-4712-91f0-85f76719d1f8.jpg"
+          id="result-image"/>
+    </div>
+    
 
-<div class="aim-label">Click on a meme to generate a new caption</div>
+    <div class="masonry-wrapper">
+      <div class="masonry">
+        <div class="category-image masonry-item" id="188390779">
+          <img class="masonry-content" alt="Woman Yelling At Cat" title="Woman Yelling At Cat"
+              src="http://imgflip.com/s/meme/Woman-Yelling-At-Cat.jpg"/>
+        </div>
 
-<div class="result-image">
-    <img alt="Generated result image"
-         title="Generated result image"
-         src="//www.dipsimt.com/Upload/Main/result1_cb071472-fb24-4712-91f0-85f76719d1f8.jpg"
-         id="result-image"/>
-</div>
 
-<div class="category-image" id="188390779">
-    <img alt="Woman Yelling At Cat" title="Woman Yelling At Cat"
-         src="//imgflip.com/s/meme/Woman-Yelling-At-Cat.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="155067746">
+            <img class="masonry-content" alt="Surprised Pikachu" title="Surprised Pikachu"
+                src="http://imgflip.com/s/meme/Surprised-Pikachu.jpg"/>
+        </div>
 
 
-<div class="category-image" id="155067746">
-    <img alt="Surprised Pikachu" title="Surprised Pikachu"
-         src="//imgflip.com/s/meme/Surprised-Pikachu.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="87743020">
+            <img class="masonry-content" alt="Two Buttons" title="Two Buttons"
+                src="http://imgflip.com/s/meme/Two-Buttons.jpg"/>
+        </div>
 
 
-<div class="category-image" id="87743020">
-    <img alt="Two Buttons" title="Two Buttons"
-         src="//imgflip.com/s/meme/Two-Buttons.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="119139145">
+            <img class="masonry-content" alt="Blank Nut Button" title="Blank Nut Button"
+                src="http://imgflip.com/s/meme/Blank-Nut-Button.jpg"/>
+        </div>
 
 
-<div class="category-image" id="119139145">
-    <img alt="Blank Nut Button" title="Blank Nut Button"
-         src="//imgflip.com/s/meme/Blank-Nut-Button.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="112126428">
+            <img class="masonry-content" alt="Distracted Boyfriend" title="Distracted Boyfriend"
+                src="http://imgflip.com/s/meme/Distracted-Boyfriend.jpg"/>
+        </div>
 
 
-<div class="category-image" id="112126428">
-    <img alt="Distracted Boyfriend" title="Distracted Boyfriend"
-         src="//imgflip.com/s/meme/Distracted-Boyfriend.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="178591752">
+            <img class="masonry-content" alt="Tuxedo Winnie The Pooh" title="Tuxedo Winnie The Pooh"
+                src="http://imgflip.com/s/meme/Tuxedo-Winnie-The-Pooh.png"/>
+        </div>
 
 
-<div class="category-image" id="178591752">
-    <img alt="Tuxedo Winnie The Pooh" title="Tuxedo Winnie The Pooh"
-         src="//imgflip.com/s/meme/Tuxedo-Winnie-The-Pooh.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="131087935">
+            <img class="masonry-content" alt="Running Away Balloon" title="Running Away Balloon"
+                src="http://imgflip.com/s/meme/Running-Away-Balloon.jpg"/>
+        </div>
 
 
-<div class="category-image" id="131087935">
-    <img alt="Running Away Balloon" title="Running Away Balloon"
-         src="//imgflip.com/s/meme/Running-Away-Balloon.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="196652226">
+            <img class="masonry-content" alt="Spongebob Ight Imma Head Out"
+                title="Spongebob Ight Imma Head Out"
+                src="http://imgflip.com/s/meme/Spongebob-Ight-Imma-Head-Out.jpg"/>
+        </div>
 
 
-<div class="category-image" id="196652226">
-    <img alt="Spongebob Ight Imma Head Out"
-         title="Spongebob Ight Imma Head Out"
-         src="//imgflip.com/s/meme/Spongebob-Ight-Imma-Head-Out.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="134797956">
+            <img class="masonry-content" alt="American Chopper Argument" title="American Chopper Argument"
+                src="http://imgflip.com/s/meme/American-Chopper-Argument.jpg"/>
+        </div>
 
 
-<div class="category-image" id="134797956">
-    <img alt="American Chopper Argument" title="American Chopper Argument"
-         src="//imgflip.com/s/meme/American-Chopper-Argument.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="28251713">
+            <img class="masonry-content" alt="Oprah You Get A" title="Oprah You Get A"
+                src="http://imgflip.com/s/meme/Oprah-You-Get-A.jpg"/>
+        </div>
 
 
-<div class="category-image" id="28251713">
-    <img alt="Oprah You Get A" title="Oprah You Get A"
-         src="//imgflip.com/s/meme/Oprah-You-Get-A.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="27813981">
+            <img class="masonry-content" alt="Hide the Pain Harold" title="Hide the Pain Harold"
+                src="http://imgflip.com/s/meme/Hide-the-Pain-Harold.jpg"/>
+        </div>
 
 
-<div class="category-image" id="27813981">
-    <img alt="Hide the Pain Harold" title="Hide the Pain Harold"
-         src="//imgflip.com/s/meme/Hide-the-Pain-Harold.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="100777631">
+            <img class="masonry-content" alt="Is This A Pigeon" title="Is This A Pigeon"
+                src="http://imgflip.com/s/meme/Is-This-A-Pigeon.jpg"/>
+        </div>
 
 
-<div class="category-image" id="100777631">
-    <img alt="Is This A Pigeon" title="Is This A Pigeon"
-         src="//imgflip.com/s/meme/Is-This-A-Pigeon.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="114585149">
+            <img class="masonry-content" alt="Inhaling Seagull" title="Inhaling Seagull"
+                src="http://imgflip.com/s/meme/Inhaling-Seagull.jpg"/>
+        </div>
 
 
-<div class="category-image" id="114585149">
-    <img alt="Inhaling Seagull" title="Inhaling Seagull"
-         src="//imgflip.com/s/meme/Inhaling-Seagull.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="175540452">
+            <img class="masonry-content" alt="Unsettled Tom" title="Unsettled Tom"
+                src="http://imgflip.com/s/meme/Unsettled-Tom.jpg"/>
+        </div>
 
 
-<div class="category-image" id="175540452">
-    <img alt="Unsettled Tom" title="Unsettled Tom"
-         src="//imgflip.com/s/meme/Unsettled-Tom.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="84341851">
+            <img class="masonry-content" alt="Evil Kermit" title="Evil Kermit"
+                src="http://imgflip.com/s/meme/Evil-Kermit.jpg"/>
+        </div>
 
 
-<div class="category-image" id="84341851">
-    <img alt="Evil Kermit" title="Evil Kermit"
-         src="//imgflip.com/s/meme/Evil-Kermit.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="132769734">
+            <img class="masonry-content" alt="Hard To Swallow Pills" title="Hard To Swallow Pills"
+                src="http://imgflip.com/s/meme/Hard-To-Swallow-Pills.jpg"/>
+        </div>
 
 
-<div class="category-image" id="132769734">
-    <img alt="Hard To Swallow Pills" title="Hard To Swallow Pills"
-         src="//imgflip.com/s/meme/Hard-To-Swallow-Pills.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="93895088">
+            <img class="masonry-content" alt="Expanding Brain" title="Expanding Brain"
+                src="http://imgflip.com/s/meme/Expanding-Brain.jpg"/>
+        </div>
 
 
-<div class="category-image" id="93895088">
-    <img alt="Expanding Brain" title="Expanding Brain"
-         src="//imgflip.com/s/meme/Expanding-Brain.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="129242436">
+            <img class="masonry-content" alt="Change My Mind" title="Change My Mind"
+                src="http://imgflip.com/s/meme/Change-My-Mind.jpg"/>
+        </div>
 
 
-<div class="category-image" id="129242436">
-    <img alt="Change My Mind" title="Change My Mind"
-         src="//imgflip.com/s/meme/Change-My-Mind.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="102156234">
+            <img class="masonry-content" alt="Mocking Spongebob" title="Mocking Spongebob"
+                src="http://imgflip.com/s/meme/Mocking-Spongebob.jpg"/>
+        </div>
 
 
-<div class="category-image" id="102156234">
-    <img alt="Mocking Spongebob" title="Mocking Spongebob"
-         src="//imgflip.com/s/meme/Mocking-Spongebob.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="181913649">
+            <img class="masonry-content" alt="Drake Hotline Bling" title="Drake Hotline Bling"
+                src="http://imgflip.com/s/meme/Drake-Hotline-Bling.jpg"/>
+        </div>
 
 
-<div class="category-image" id="181913649">
-    <img alt="Drake Hotline Bling" title="Drake Hotline Bling"
-         src="//imgflip.com/s/meme/Drake-Hotline-Bling.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="135256802">
+            <img class="masonry-content" alt="Epic Handshake" title="Epic Handshake"
+                src="http://imgflip.com/s/meme/Epic-Handshake.jpg"/>
+        </div>
 
 
-<div class="category-image" id="135256802">
-    <img alt="Epic Handshake" title="Epic Handshake"
-         src="//imgflip.com/s/meme/Epic-Handshake.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="16464531">
+            <img class="masonry-content" alt="But Thats None Of My Business"
+                title="But Thats None Of My Business"
+                src="http://imgflip.com/s/meme/But-Thats-None-Of-My-Business.jpg"/>
+        </div>
 
 
-<div class="category-image" id="16464531">
-    <img alt="But Thats None Of My Business"
-         title="But Thats None Of My Business"
-         src="//imgflip.com/s/meme/But-Thats-None-Of-My-Business.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="184801100">
+            <img class="masonry-content" alt="Me And The Boys" title="Me And The Boys"
+                src="http://imgflip.com/s/meme/Me-And-The-Boys.jpg"/>
+        </div>
 
 
-<div class="category-image" id="184801100">
-    <img alt="Me And The Boys" title="Me And The Boys"
-         src="//imgflip.com/s/meme/Me-And-The-Boys.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="3218037">
+            <img class="masonry-content" alt="This Is Where Id Put My Trophy If I Had One"
+                title="This Is Where Id Put My Trophy If I Had One"
+                src="http://imgflip.com/s/meme/This-Is-Where-Id-Put-My-Trophy-If-I-Had-One.jpg"/>
+        </div>
 
 
-<div class="category-image" id="3218037">
-    <img alt="This Is Where Id Put My Trophy If I Had One"
-         title="This Is Where Id Put My Trophy If I Had One"
-         src="//imgflip.com/s/meme/This-Is-Where-Id-Put-My-Trophy-If-I-Had-One.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="170715647">
+            <img class="masonry-content" alt="Well Yes But Actually No" title="Well Yes But Actually No"
+                src="http://imgflip.com/s/meme/Well-Yes-But-Actually-No.jpg"/>
+        </div>
 
 
-<div class="category-image" id="170715647">
-    <img alt="Well Yes But Actually No" title="Well Yes But Actually No"
-         src="//imgflip.com/s/meme/Well-Yes-But-Actually-No.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="163573">
+            <img class="masonry-content" alt="Imagination Spongebob" title="Imagination Spongebob"
+                src="http://imgflip.com/s/meme/Imagination-Spongebob.jpg"/>
+        </div>
 
 
-<div class="category-image" id="163573">
-    <img alt="Imagination Spongebob" title="Imagination Spongebob"
-         src="//imgflip.com/s/meme/Imagination-Spongebob.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="61581">
+            <img class="masonry-content" alt="Put It Somewhere Else Patrick"
+                title="Put It Somewhere Else Patrick"
+                src="http://imgflip.com/s/meme/Put-It-Somewhere-Else-Patrick.jpg"/>
+        </div>
 
 
-<div class="category-image" id="61581">
-    <img alt="Put It Somewhere Else Patrick"
-         title="Put It Somewhere Else Patrick"
-         src="//imgflip.com/s/meme/Put-It-Somewhere-Else-Patrick.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="74191766">
+            <img class="masonry-content" alt="Arthur Fist" title="Arthur Fist"
+                src="http://imgflip.com/s/meme/Arthur-Fist.jpg"/>
+        </div>
 
 
-<div class="category-image" id="74191766">
-    <img alt="Arthur Fist" title="Arthur Fist"
-         src="//imgflip.com/s/meme/Arthur-Fist.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="124822590">
+            <img class="masonry-content" alt="Left Exit 12 Off Ramp" title="Left Exit 12 Off Ramp"
+                src="http://imgflip.com/s/meme/Left-Exit-12-Off-Ramp.jpg"/>
+        </div>
 
+        <div class="category-image masonry-item" id="438680">
+            <img class="masonry-content" alt="Batman Slapping Robin" title="Batman Slapping Robin"
+                src="http://imgflip.com/s/meme/Batman-Slapping-Robin.jpg"/>
+        </div>
 
-<div class="category-image" id="124822590">
-    <img alt="Left Exit 12 Off Ramp" title="Left Exit 12 Off Ramp"
-         src="//imgflip.com/s/meme/Left-Exit-12-Off-Ramp.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="1035805">
+            <img class="masonry-content" alt="Boardroom Meeting Suggestion"
+                title="Boardroom Meeting Suggestion"
+                src="http://imgflip.com/s/meme/Boardroom-Meeting-Suggestion.jpg"/>
+        </div>
 
+        <div class="category-image masonry-item" id="89370399">
+            <img class="masonry-content" alt="Roll Safe Think About It" title="Roll Safe Think About It"
+                src="http://imgflip.com/s/meme/Roll-Safe-Think-About-It.jpg"/>
+        </div>
 
-<div class="category-image" id="438680">
-    <img alt="Batman Slapping Robin" title="Batman Slapping Robin"
-         src="//imgflip.com/s/meme/Batman-Slapping-Robin.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="40945639">
+            <img class="masonry-content" alt="Dr Evil Laser" title="Dr Evil Laser"
+                src="http://imgflip.com/s/meme/Dr-Evil-Laser.jpg"/>
+        </div>
 
-<div class="category-image" id="1035805">
-    <img alt="Boardroom Meeting Suggestion"
-         title="Boardroom Meeting Suggestion"
-         src="//imgflip.com/s/meme/Boardroom-Meeting-Suggestion.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="61733537">
+            <img class="masonry-content" alt="Mr Krabs Blur Meme" title="Mr Krabs Blur Meme"
+                src="http://imgflip.com/s/meme/Mr-Krabs-Blur-Meme.jpg"/>
+        </div>
 
-<div class="category-image" id="89370399">
-    <img alt="Roll Safe Think About It" title="Roll Safe Think About It"
-         src="//imgflip.com/s/meme/Roll-Safe-Think-About-It.jpg"/>
-</div>
+        <div class="category-image masonry-item" id="164335977">
+            <img class="masonry-content" alt="Bird Box" title="Bird Box"
+                src="http://imgflip.com/s/meme/Bird-Box.jpg"/>
+        </div>
 
+        <div class="category-image masonry-item" id="10364354">
+            <img class="masonry-content" alt="Its Not Going To Happen" title="Its Not Going To Happen"
+                src="http://imgflip.com/s/meme/Its-Not-Going-To-Happen.jpg"/>
+        </div>
 
-<div class="category-image" id="40945639">
-    <img alt="Dr Evil Laser" title="Dr Evil Laser"
-         src="//imgflip.com/s/meme/Dr-Evil-Laser.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="326093">
+            <img class="masonry-content" alt="Ill Have You Know Spongebob" title="Ill Have You Know Spongebob"
+                src="http://imgflip.com/s/meme/Ill-Have-You-Know-Spongebob.jpg"/>
+        </div>
 
-<div class="category-image" id="61733537">
-    <img alt="Mr Krabs Blur Meme" title="Mr Krabs Blur Meme"
-         src="//imgflip.com/s/meme/Mr-Krabs-Blur-Meme.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="4087833">
+            <img class="masonry-content" alt="Waiting Skeleton" title="Waiting Skeleton"
+                src="http://imgflip.com/s/meme/Waiting-Skeleton.jpg"/>
+        </div>
 
-<div class="category-image" id="164335977">
-    <img alt="Bird Box" title="Bird Box"
-         src="//imgflip.com/s/meme/Bird-Box.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="135678846">
+            <img class="masonry-content" alt="Who Killed Hannibal" title="Who Killed Hannibal"
+                src="http://imgflip.com/s/meme/Who-Killed-Hannibal.jpg"/>
+        </div>
 
-<div class="category-image" id="10364354">
-    <img alt="Its Not Going To Happen" title="Its Not Going To Happen"
-         src="//imgflip.com/s/meme/Its-Not-Going-To-Happen.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="61520">
+            <img class="masonry-content" alt="Futurama Fry" title="Futurama Fry"
+                src="http://imgflip.com/s/meme/Futurama-Fry.jpg"/>
+        </div>
 
-<div class="category-image" id="326093">
-    <img alt="Ill Have You Know Spongebob" title="Ill Have You Know Spongebob"
-         src="//imgflip.com/s/meme/Ill-Have-You-Know-Spongebob.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="217743513">
+            <img class="masonry-content" alt="UNO Draw 25 Cards" title="UNO Draw 25 Cards"
+                src="http://imgflip.com/s/meme/UNO-Draw-25-Cards.jpg"/>
+        </div>
 
-<div class="category-image" id="4087833">
-    <img alt="Waiting Skeleton" title="Waiting Skeleton"
-         src="//imgflip.com/s/meme/Waiting-Skeleton.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="222403160">
+            <img class="masonry-content" alt="Bernie I Am Once Again Asking For Your Support"
+                title="Bernie I Am Once Again Asking For Your Support"
+                src="http://imgflip.com/s/meme/Bernie-I-Am-Once-Again-Asking-For-Your-Support.jpg"/>
+        </div>
 
-<div class="category-image" id="135678846">
-    <img alt="Who Killed Hannibal" title="Who Killed Hannibal"
-         src="//imgflip.com/s/meme/Who-Killed-Hannibal.jpg"/>
-</div>
 
+        <div class="category-image masonry-item" id="148909805">
+            <img class="masonry-content" alt="Monkey Puppet" title="Monkey Puppet"
+                src="http://imgflip.com/s/meme/Monkey-Puppet.jpg"/>
+        </div>
 
-<div class="category-image" id="61520">
-    <img alt="Futurama Fry" title="Futurama Fry"
-         src="//imgflip.com/s/meme/Futurama-Fry.jpg"/>
-</div>
 
-
-<div class="category-image" id="217743513">
-    <img alt="UNO Draw 25 Cards" title="UNO Draw 25 Cards"
-         src="//imgflip.com/s/meme/UNO-Draw-25-Cards.jpg"/>
-</div>
-
-
-<div class="category-image" id="222403160">
-    <img alt="Bernie I Am Once Again Asking For Your Support"
-         title="Bernie I Am Once Again Asking For Your Support"
-         src="//imgflip.com/s/meme/Bernie-I-Am-Once-Again-Asking-For-Your-Support.jpg"/>
-</div>
-
-
-<div class="category-image" id="148909805">
-    <img alt="Monkey Puppet" title="Monkey Puppet"
-         src="//imgflip.com/s/meme/Monkey-Puppet.jpg"/>
-</div>
-
-
-<div class="category-image" id="226297822">
-    <img alt="Panik Kalm Panik" title="Panik Kalm Panik"
-         src="//imgflip.com/s/meme/Panik-Kalm-Panik.jpg"/>
-</div>
-
+        <div class="category-image masonry-item" id="226297822">
+            <img class="masonry-content" alt="Panik Kalm Panik" title="Panik Kalm Panik"
+                src="http://imgflip.com/s/meme/Panik-Kalm-Panik.png"/>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <script src="../static/js/index.js"></script>
+  <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+  <script src="../static/js/masonry.js"></script>
 </body>
 </html>
