@@ -1,0 +1,9 @@
+{
+  "name": "meme-generator",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "dependencies": {
+    "fetch": "^1.1.0"
+  },
+  "author": "Angelika Postaremczak"
+}
