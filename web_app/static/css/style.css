@@ -59,7 +59,8 @@ body {
     overflow: hidden;
 }
 .masonry-item {
-    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, .3));
+    /* filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, .3)); */
+    border: 1px solid rgba(0, 0, 0, .1);
     transition: filter .25s ease-in-out;
 }
 .masonry-item:hover {
