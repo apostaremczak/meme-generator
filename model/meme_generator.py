@@ -39,28 +39,23 @@ def get_tokenizer(tokenizer_path: Optional[str] = TOKENIZER_PATH,
     return tokenizer
 
 
-def get_model(model_path: Optional[str],
+def get_model(model_weights_path: Optional[str],
               vocab_size: int = VOCAB_SIZE,
               logger: Logger = get_logger()) -> TFGPT2LMHeadModel:
     """
 
-    :param model_path:  Path to a pre-trained model.
-    :param vocab_size:  Vocabulary size, including special tokens.
-    :param logger:      Logger object.
-    :return:            Enriched DistilGPT-2 model.
+    :param model_weights_path:  Path to a pre-trained model's weights.
+    :param vocab_size:          Vocabulary size, including special tokens.
+    :param logger:              Logger object.
+    :return:                    Enriched DistilGPT-2 model.
     """
-    if model_path is None:
-        logger.info("Loading a new model")
-        model = TFGPT2LMHeadModel.from_pretrained("distilgpt2")
-        model.resize_token_embeddings(vocab_size)
-    else:
-        logger.info(f"Loading a pre-trained model from {model_path}")
-        model = TFGPT2LMHeadModel.from_pretrained(model_path)
+    logger.info("Loading a new model")
+    model = TFGPT2LMHeadModel.from_pretrained("distilgpt2")
+    model.resize_token_embeddings(vocab_size)
+
+    if model_weights_path is not None:
+        logger.info(f"Loading a pre-trained model from {model_weights_path}")
+        model.load_weights(model_weights_path)
 
     logger.info("Successfully loaded GTP-2")
     return model
-
-
-if __name__ == '__main__':
-    tokenizer = get_tokenizer()
-    tokenizer.save_vocabulary("tokenizer/")
