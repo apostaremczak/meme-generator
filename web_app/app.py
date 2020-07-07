@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def generate_meme(category_id: str):
         "21": "https://i.imgflip.com/422mns.jpg",
         "47": "https://i.imgflip.com/47dpwj.jpg"
     }
-    return images[category_id]
+    return jsonify(result_image=images[category_id])
 
 
 if __name__ == '__main__':
