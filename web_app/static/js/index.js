@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded',  () => {
 
             fetch(`${GeneratorEndpoint}/${category.id}`)
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data.result_image)
+                    console.log(document.getElementById("result-image"))
+                    document.getElementById("result-image").src = data.result_image
+                })
         })
     })
 })

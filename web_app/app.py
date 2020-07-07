@@ -12,9 +12,9 @@ def index():
 @app.route('/generate/<category_id>', methods=["GET"])
 def generate_meme(category_id: str):
     images = {
-        "0": "https://i.imgflip.com/47hbo7.jpg",
-        "21": "https://i.imgflip.com/422mns.jpg",
-        "47": "https://i.imgflip.com/47dpwj.jpg"
+        "0": "//i.imgflip.com/47hbo7.jpg",
+        "21": "//i.imgflip.com/422mns.jpg",
+        "47": "//i.imgflip.com/47dpwj.jpg"
     }
     return jsonify(result_image=images[category_id])
 
