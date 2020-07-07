@@ -59,3 +59,8 @@ def get_model(model_path: Optional[str],
 
     logger.info("Successfully loaded GTP-2")
     return model
+
+
+if __name__ == '__main__':
+    tokenizer = get_tokenizer()
+    tokenizer.save_vocabulary("tokenizer/")
