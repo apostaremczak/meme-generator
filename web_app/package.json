@@ -2,45 +2,8 @@
   "name": "meme-generator",
   "version": "1.0.0",
   "main": "./index.js",
-  "types": "./index.d.ts",
-  "bin": "./cli.js",
   "dependencies": {
-    "@tensorflow/tfjs-node": "^2.0.1",
-    "@types/node": "^13.5.0",
-    "@types/node-fetch": "^2.5.4",
-    "@types/progress": "^2.0.3",
-    "@types/shelljs": "^0.8.7",
-    "@types/tar": "^4.0.3",
-    "node-fetch": "^2.6.0",
-    "progress": "^2.0.3",
-    "shelljs": "^0.8.3",
-    "tar": "^5.0.5",
-    "tokenizers": "^0.7.0",
-    "yargs": "^15.1.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.3",
-    "@typescript-eslint/eslint-plugin": "^2.23.0",
-    "@typescript-eslint/parser": "^2.23.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-jest": "^23.6.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-simple-import-sort": "^5.0.0",
-    "jest": "^26.1.0",
-    "prettier": "^1.19.1",
-    "ts-jest": "^26.1.1",
-    "typescript": "^3.9.6",
-    "yargs-interactive": "^3.0.0"
-  },
-  "scripts": {
-    "dev": "rm -rf dist && npx tsc",
-    "test": "jest",
-    "lint": "eslint --fix --ext .js,.ts src scripts",
-    "lint-check": "eslint --ext .js,.ts src scripts"
-  },
-  "engines": {
-    "node": ">=10 < 11 || >=12 <14"
+    "fetch": "^1.1.0"
   },
   "author": "Angelika Postaremczak"
 }

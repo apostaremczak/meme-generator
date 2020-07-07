@@ -1,10 +1,12 @@
-import { BaseTokenizer } from 'tokenizers';
+const GeneratorEndpoint = "https://server-placeholder.com/generate"
 
 async function app() {
-  console.log('Loading tokenizer..');
-
-  const wordPieceTokenizer = await BaseTokenizer.fromOptions({ vocabFile: "./vocab.json" });
-  console.log('Successfully loaded tokenizer');
+  const categories = document.querySelectorAll("category-image")
+  categories.forEach(function (category) {
+    category.addEventListener("click", function () {
+      console.log(category.id)
+    })
+  })
 }
 
 app();
