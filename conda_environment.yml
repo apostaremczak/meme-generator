@@ -21,6 +21,7 @@ dependencies:
   - chardet=3.0.4=py38h32f6830_1006
   - click=7.1.2=pyh9f0ad1d_0
   - cryptography=2.9.2=py38h766eaa4_0
+  - flask=1.1.2=pyh9f0ad1d_0
   - gast=0.3.3=py_0
   - google-auth=1.17.2=py_0
   - google-auth-oauthlib=0.4.1=py_2
@@ -30,6 +31,8 @@ dependencies:
   - hdf5=1.10.6=nompi_h3c11f04_100
   - idna=2.8=py38_1000
   - importlib-metadata=1.7.0=py38h32f6830_0
+  - itsdangerous=1.1.0=py_0
+  - jinja2=2.11.2=pyh9f0ad1d_0
   - keras-preprocessing=1.1.0=py_0
   - ld_impl_linux-64=2.34=h53a641e_5
   - libblas=3.8.0=17_openblas
@@ -43,6 +46,7 @@ dependencies:
   - libstdcxx-ng=9.2.0=hdf63c60_2
   - llvm-openmp=10.0.0=hc9558a2_0
   - markdown=3.2.2=py_0
+  - markupsafe=1.1.1=py38h1e0a361_1
   - ncurses=6.1=hf484d3e_1002
   - numpy=1.18.5=py38h8854b6b_0
   - oauthlib=3.0.1=py_0
@@ -91,8 +95,10 @@ dependencies:
     - joblib==0.16.0
     - packaging==20.4
     - pyparsing==2.4.7
+    - pyyaml==5.3.1
     - regex==2020.6.8
     - sacremoses==0.0.43
     - sentencepiece==0.1.91
     - tokenizers==0.8.0rc4
+    - toposort==1.5
     - transformers==3.0.1
