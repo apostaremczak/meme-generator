@@ -1,4 +1,5 @@
 import json
+import logging
 import requests
 from dataclasses import dataclass
 from random import choice
@@ -11,10 +12,15 @@ class MemeCategory:
     token: str
     num_boxes: Tuple[int]
 
+    def __post_init__(self):
+        self.name = self.token[2:-2]
+
 
 END_OF_BOX_TOKEN = "<|endofbox|>"
 END_OF_TEXT_TOKEN = "<|endoftext|>"
 IMGFLIP_API = "https://api.imgflip.com/caption_image"
+FAILED_URL = "https://cdn.oncheckin.com/blogassets/blog-d888cc31-b202-4676-bdbe-e01432534be7.png"
+MAX_BOX_LENGTH = 60
 
 CATEGORIES = {
     '188390779': MemeCategory('<|Woman-Yelling-At-Cat|>', (2,)),
@@ -50,9 +56,9 @@ CATEGORIES = {
     '438680': MemeCategory('<|Batman-Slapping-Robin|>', (2,)),
     '1035805': MemeCategory('<|Boardroom-Meeting-Suggestion|>', (4,)),
     '89370399': MemeCategory('<|Roll-Safe-Think-About-It|>', (1, 2)),
-    '40945639': MemeCategory('<|Dr-Evil-Laser|>', (1,)),
-    '61733537': MemeCategory('<|Mr-Krabs-Blur-Meme|>', (1, 2)),
-    '164335977': MemeCategory('<|Bird-Box|>', (1, 2)),
+    '40945639': MemeCategory('<|Dr-Evil-Laser|>', (2,)),
+    '61733537': MemeCategory('<|Mr-Krabs-Blur-Meme|>', (2,)),
+    '164335977': MemeCategory('<|Bird-Box|>', (2,)),
     '10364354': MemeCategory('<|Its-Not-Going-To-Happen|>', (2,)),
     '326093': MemeCategory('<|Ill-Have-You-Know-Spongebob|>', (1, 2)),
     '4087833': MemeCategory('<|Waiting-Skeleton|>', (1, 2)),
@@ -80,43 +86,48 @@ def get_api_credentials():
     return credentials
 
 
+def get_logger(logger_name: str = "ModelAPILogger") -> logging.Logger:
+    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                        level=logging.INFO)
+    return logging.getLogger(logger_name)
+
+
 def is_caption_empty(caption: str):
-    stripped = caption.replace(END_OF_BOX_TOKEN, "").replace(" ", "")
+    stripped = caption.replace(END_OF_BOX_TOKEN, "").replace(" ", "").strip()
     return len(stripped) == 0
 
 
 def prepare_text_boxes(decoded_caption: str,
                        category: MemeCategory) -> List[str]:
-    caption = decoded_caption.replace(category.token, "")
-
-    # Find the first meme caption
-    caption = caption.split(END_OF_TEXT_TOKEN)
-    caption = " ".join(list(filter(lambda cap: not is_caption_empty(cap),
-                                   caption))[:1])
+    caption = decoded_caption.replace(category.token, "") \
+        .replace(END_OF_TEXT_TOKEN, "")
 
     # Choose text for image boxes
     num_boxes = choice(category.num_boxes)
     text_boxes = caption.split(END_OF_BOX_TOKEN)
     text_boxes = list(
         filter(lambda box: not is_caption_empty(box), text_boxes))
-    text_boxes = [text_box.strip() for text_box in text_boxes[:num_boxes]]
+    text_boxes = [text_box.strip()[:MAX_BOX_LENGTH]
+                  for text_box in text_boxes[:num_boxes]]
     return text_boxes
 
 
-def generate_caption(category_id: str,
+def generate_caption(category: MemeCategory,
                      tokenizer: GPT2Tokenizer,
-                     model: TFGPT2LMHeadModel) -> List[str]:
-    category = CATEGORIES[category_id]
+                     model: TFGPT2LMHeadModel,
+                     logger: logging.Logger) -> List[str]:
     model_input = tokenizer.encode(category.token, return_tensors="tf")
     model_output = model.generate(
         model_input,
         do_sample=True,
         max_length=80,
-        top_k=3,
-        temperature=0.7,
+        top_p=0.96,
+        top_k=0,
+        temperature=0.5,
         pad_token_id=50256
     )
     caption = tokenizer.decode(model_output[0], skip_special_tokens=False)
+    logger.info(f"Decoded caption: {caption}")
     return prepare_text_boxes(caption, category)
 
 
@@ -140,21 +151,46 @@ def get_meme_url(text_boxes: List[str], category_id: str,
     return imgflip_response["data"]["url"]
 
 
-def generate_meme(category_id: str, tokenizer: GPT2Tokenizer,
-                  model: TFGPT2LMHeadModel, api_credentials: dict) -> str:
-    caption = generate_caption(category_id, tokenizer, model)
+def is_valid_caption(text_boxes: List[str], counter: int) -> bool:
+    caption = " ".join(text_boxes)
+    return counter <= 5 and not is_caption_empty(caption) and len(caption) > 2
 
-    while is_caption_empty(" ".join(caption)):
-        caption = generate_caption(category_id, tokenizer, model)
-    return get_meme_url(caption, category_id, api_credentials)
+
+def generate_meme(category_id: str, tokenizer: GPT2Tokenizer,
+                  model: TFGPT2LMHeadModel, api_credentials: dict,
+                  logger: logging.Logger) -> str:
+    category = CATEGORIES[category_id]
+    logger.info(f"Generating caption for category {category.name}")
+    caption = generate_caption(category, tokenizer, model, logger)
+
+    retry_count = 0
+    while not is_valid_caption(caption, retry_count):
+        logger.info(f"Generated an empty caption, retrying...")
+        retry_count += 1
+        caption = generate_caption(category, tokenizer, model, logger)
+
+    if not is_valid_caption(caption, retry_count):
+        logger.warn(f"Failed to render a valid caption 5 times")
+        return FAILED_URL
+
+    logger.info(f"Rendering caption: "
+                f"CATEGORY: {category.name} "
+                f"CAPTION: '{' '.join(caption)}'")
+
+    image_url = get_meme_url(caption, category_id, api_credentials)
+    logger.info(f"Image url: {image_url}")
+
+    return image_url
 
 
 def get_model_api():
     api_credentials = get_api_credentials()
     tokenizer = get_tokenizer()
     model = get_model()
+    logger = get_logger()
 
     def model_api_lambda(category_id):
-        return generate_meme(category_id, tokenizer, model, api_credentials)
+        return generate_meme(category_id, tokenizer, model, api_credentials,
+                             logger)
 
     return model_api_lambda
