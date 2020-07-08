@@ -116,6 +116,7 @@ def generate_caption(category: MemeCategory,
                      tokenizer: GPT2Tokenizer,
                      model: TFGPT2LMHeadModel,
                      logger: logging.Logger) -> List[str]:
+    logger.info("Sending request to the model")
     model_input = tokenizer.encode(category.token, return_tensors="tf")
     model_output = model.generate(
         model_input,
@@ -151,9 +152,13 @@ def get_meme_url(text_boxes: List[str], category_id: str,
     return imgflip_response["data"]["url"]
 
 
-def is_valid_caption(text_boxes: List[str], counter: int) -> bool:
+def is_valid_caption(text_boxes: List[str]) -> bool:
     caption = " ".join(text_boxes)
-    return counter <= 5 and not is_caption_empty(caption) and len(caption) > 2
+    return not is_caption_empty(caption) and len(caption) > 2
+
+
+def too_many_retries(retry_count: int) -> bool:
+    return retry_count > 5
 
 
 def generate_meme(category_id: str, tokenizer: GPT2Tokenizer,
@@ -164,13 +169,13 @@ def generate_meme(category_id: str, tokenizer: GPT2Tokenizer,
     caption = generate_caption(category, tokenizer, model, logger)
 
     retry_count = 0
-    while not is_valid_caption(caption, retry_count):
-        logger.info(f"Generated an empty caption, retrying...")
+    while not is_valid_caption(caption) and not too_many_retries(retry_count):
+        logger.info(f"Generated an invalid caption, retrying...")
         retry_count += 1
         caption = generate_caption(category, tokenizer, model, logger)
 
-    if not is_valid_caption(caption, retry_count):
-        logger.warn(f"Failed to render a valid caption 5 times")
+    if not is_valid_caption(caption):
+        logger.error(f"Failed to render a valid caption 5 times")
         return FAILED_URL
 
     logger.info(f"Rendering caption: "
