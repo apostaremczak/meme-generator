@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  meme-generator-app:
     build: .
     ports:
       - "5000:5000"
