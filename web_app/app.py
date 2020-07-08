@@ -1,7 +1,9 @@
-import os
 from flask import Flask, render_template, jsonify
 
+from model_api import get_model_api
+
 app = Flask(__name__)
+model_api = get_model_api()
 
 
 @app.route('/')
@@ -11,12 +13,7 @@ def index():
 
 @app.route('/generate/<category_id>', methods=["GET"])
 def generate_meme(category_id: str):
-    images = {
-        "0": "//i.imgflip.com/47hbo7.jpg",
-        "21": "//i.imgflip.com/422mns.jpg",
-        "47": "//i.imgflip.com/47dpwj.jpg"
-    }
-    return jsonify(result_image=images[category_id])
+    return jsonify(result_image=model_api(category_id))
 
 
 if __name__ == '__main__':
