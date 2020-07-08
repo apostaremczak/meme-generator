@@ -125,8 +125,13 @@ def get_meme_url(text_boxes: List[str], category_id: str,
     request_data = api_credentials.copy()
     request_data["template_id"] = category_id
 
-    for box_index, text_box in enumerate(text_boxes):
-        request_data[f"boxes[{box_index}][text]"] = text_box
+    # Handle misplaced text on poor Bernie
+    if category_id == "222403160":
+        request_data["text0"] = " "
+        request_data["text1"] = text_boxes[0]
+    else:
+        for box_index, text_box in enumerate(text_boxes):
+            request_data[f"boxes[{box_index}][text]"] = text_box
 
     imgflip_response = requests.request("POST", IMGFLIP_API,
                                         params=request_data).json()
