@@ -135,4 +135,3 @@ web_app/credentials.json
 
 # Downloaded database
 data/captions/*.json
-data/final_images/
