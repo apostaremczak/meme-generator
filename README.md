@@ -25,4 +25,4 @@ Based on over 40 most common image templates, it tries to generate a new caption
 
 My inspiration was [an article by Dylan Wenzlau](https://towardsdatascience.com/meme-text-generation-with-a-deep-convolutional-network-in-keras-tensorflow-a57c6f218e85) on Medium.
 
-I am be using images from [imgflip.com](https://imgflip.com/).
+I am using images from [imgflip.com](https://imgflip.com/).
